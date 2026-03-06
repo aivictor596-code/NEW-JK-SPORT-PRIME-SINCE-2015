@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JK Sports Prime</title>
+
+<style>
+body{
+  font-family:Arial;
+  margin:0;
+  background:#f5f5f5;
+}
+
+header{
+  background:#111;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+nav{
+  background:#222;
+  padding:10px;
+  text-align:center;
+}
+
+nav button{
+  margin:5px;
+  padding:8px 14px;
+  border:none;
+  background:orange;
+  color:white;
+  cursor:pointer;
+}
+
+.products{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  width:220px;
+  margin:10px;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 0 5px gray;
+  text-align:center;
+}
+
+.card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+
+button.add{
+  background:green;
+  color:white;
+  border:none;
+  padding:8px;
+  margin-top:5px;
+  cursor:pointer;
+}
+
+.cart{
+  position:fixed;
+  top:10px;
+  right:10px;
+  background:red;
+  color:white;
+  padding:10px;
+  border-radius:6px;
+}
+
+.contact{
+  background:#111;
+  color:white;
+  padding:20px;
+  text-align:center;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>New JK Sports Prime</h1>
+<p>Your Online Sports Store</p>
+</header>
+
+<div class="cart">
+Cart: <span id="count">0</span>
+</div>
+
+<!-- CATEGORY FILTER -->
+<nav>
+<button onclick="filter('all')">All</button>
+<button onclick="filter('cricket')">Cricket</button>
+<button onclick="filter('football')">Football</button>
+<button onclick="filter('fitness')">Fitness</button>
+<button onclick="filter('footwear')">Footwear</button>
+</nav>
+
+<!-- PRODUCTS -->
+<div class="products" id="products"></div>
+
+<!-- CONTACT SECTION -->
+<div class="contact">
+<h2>Contact Us</h2>
+<p>📞 Phone: +91 9792512286</p>
+<p>📧 Email: jksportsprime@gmail.com</p>
+</div>
+
+<script>
+
+/* ===========================
+   🔧 EASY UPDATE SECTION
+   =========================== */
+
+const WHATSAPP_NUMBER = "9792512286"; // CHANGE YOUR NUMBER
+
+const products = [
+  {
+    name:"Cricket Bat",
+    price:2500,
+    category:"cricket",
+    image:"https://via.placeholder.com/200"
+  },
+  {
+    name:"Football",
+    price:900,
+    category:"football",
+    image:"https://via.placeholder.com/200"
+  },
+  {
+    name:"Running Shoes",
+    price:1800,
+    category:"footwear",
+    image:"https://via.placeholder.com/200"
+  },
+  {
+    name:"Dumbbells Set",
+    price:1500,
+    category:"fitness",
+    image:"https://via.placeholder.com/200"
+  }
+];
+
+/* =========================== */
+
+let cart=[];
+let current="all";
+
+function showProducts(){
+  const box=document.getElementById("products");
+  box.innerHTML="";
+
+  products
+  .filter(p=>current==="all"||p.category===current)
+  .forEach((p,i)=>{
+
+    box.innerHTML+=`
+    <div class="card">
+      <img src="${p.image}">
+      <h3>${p.name}</h3>
+      <p>₹${p.price}</p>
+      <button class="add" onclick="addCart(${i})">
+      Add to Cart
+      </button>
+    </div>`;
+  });
+}
+
+function filter(cat){
+  current=cat;
+  showProducts();
+}
+
+function addCart(i){
+  cart.push(products[i]);
+  document.getElementById("count").innerText=cart.length;
+}
+
+function orderWhatsApp(){
+  if(cart.length===0){
+    alert("Cart Empty");
+    return;
+  }
+
+  let items=cart.map(p=>p.name).join(", ");
+  let total=cart.reduce((a,b)=>a+b.price,0);
+
+  let msg=`Hello, I want to order: ${items} | Total ₹${total}`;
+
+  window.open(
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
+  );
+}
+
+/* ORDER BUTTON */
+const btn=document.createElement("button");
+btn.innerText="Order via WhatsApp";
+btn.style.position="fixed";
+btn.style.bottom="20px";
+btn.style.right="20px";
+btn.style.padding="12px";
+btn.style.background="green";
+btn.style.color="white";
+btn.onclick=orderWhatsApp;
+document.body.appendChild(btn);
+
+showProducts();
+
+</script>
+
+</body>
+</html>
