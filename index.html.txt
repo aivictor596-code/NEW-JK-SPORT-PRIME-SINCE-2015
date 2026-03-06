@@ -213,10 +213,24 @@ btn.style.background="green";
 btn.style.color="white";
 btn.onclick=orderWhatsApp;
 document.body.appendChild(btn);
+<h2>My Shop</h2>
+
+<div>
+  <h3>Product 1</h3>
+  <p>Price: ₹500</p>
+  <button>Buy Now</button>
+</div>
+
+<div>
+  <h3>Product 2</h3>
+  <p>Price: ₹800</p>
+  <button>Buy Now</button>
+</div>
 
 showProducts();
 
 </script>
 
 </body>
+
 </html>
